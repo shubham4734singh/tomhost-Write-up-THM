@@ -1,0 +1,68 @@
+First, we scan the machine using the Nmap tool, which has the IP address 10.10.209.108
+
+
+
+
+
+Now, there are four open ports to check one by one: 22, 8080, 53, and 8009.
+
+We found a webpage running on port 8080..
+
+
+However, we didn’t find any specific content on the webpage, but we did discover that Apache Tomcat is running, which is associated with CVE-2020–1938.
+
+Information about CVE-2020–1938 https://www.exploit-db.com/exploits/48143 ..
+
+
+To exploit this vulnerability, we will use the Metasploit Framework.
+
+
+
+We will use auxiliary number 11, specifically auxiliary/admin/http/tomcat_ghostcat, which is designed for exploiting the Apache Tomcat AJP file read vulnerability.
+
+
+Next, we found a user with the username ‘skyfuck’ and the password ‘8730281lkjlkjdqlksalks’. We then logged into the SSH server using these credentials.
+
+We navigated to the home directory and found two users: ‘merlin’ and ‘skyfuck.’ In the ‘merlin’ user’s directory, we discovered a file named ‘user.txt.’
+
+
+In the ‘skyfuck’ user’s directory, we listed the files and found two files.
+
+
+Now, to view the content of the file, we will use the cat command: cat tryhackme.asc.
+
+We found the private key in the file.
+
+“We copied the content of the tryhackme.asc file and created a new file on our system.
+
+
+
+Then we will then crack its password using the tool John the Ripper.
+
+sudo apt-get install john
+
+gpg2john tryhackme.asc > asc.hash
+
+john asc.hash — wordlist=/path/to/wordlist
+
+Now we find the password ……
+
+
+PGP (Pretty Good Privacy), is a popular program that is used to provide confidentiality and authentication services for electronic mail and file storage. It was designed by Phil Zimmermann way back in 1991. He designed it in such a way, that the best cryptographic algorithms such as RSA, Diffie-Hellman key exchange, DSS are used for the public-key encryption (or) asymmetric encryption; CAST-128, 3DES, IDEA are used for symmetric encryption and SHA-1 is used for hashing purposes. PGP software is an open source one and is not dependent on either the OS (Operating System) or the processor. The application is based on a few commands which are very easy to use.
+
+Now the gpg --decrypt credential.pgp command is a straightforward way to decrypt files by password alexandru..
+
+We have compromised the user ‘merline’ and obtained their password: asuyusdoiuqoilkda312j31k2j123j1g23g12k3g12kj3gk12jg3k12j3kj123j
+
+
+Privilege Escalation
+sudo -l to check what the user was capable of. Got the following results.
+
+Merlin could run the Zip Binary as Root so I checked GTFObins and found an exploit for SUID.
+
+GTFObins — https://gtfobins.github.io/gtfobins/zip/#sudo
+
+
+
+
+
